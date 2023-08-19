@@ -1,4 +1,9 @@
 package com.example.myprofile.ui
 
-class MyProfileApp {
+import androidx.compose.runtime.Composable
+import com.example.myprofile.ui.screen.home.HomeScreen
+
+@Composable
+fun MyProfileApp() {
+    HomeScreen()
 }

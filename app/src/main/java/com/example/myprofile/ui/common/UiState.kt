@@ -1,5 +1,7 @@
 package com.example.myprofile.ui.common
 
-sealed interface HomeUiState {
+import com.example.myprofile.data.Profile
 
+sealed interface HomeUiState {
+    data class Result(val profile: List<Profile> = listOf())
 }
