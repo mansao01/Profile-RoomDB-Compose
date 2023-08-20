@@ -1,4 +1,4 @@
-package com.example.myprofile.ui.screen.add
+package com.example.myprofile.ui.screen.detail
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,29 +10,24 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myprofile.MyProfileApplication
 import com.example.myprofile.data.MyProfileRepository
-import com.example.myprofile.data.model.Profile
-import com.example.myprofile.ui.common.AddUiState
-import com.example.myprofile.ui.screen.home.HomeViewModel
+import com.example.myprofile.ui.common.DetailUiState
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class AddViewModel(private val repository: MyProfileRepository) : ViewModel() {
-
-    var uiState: AddUiState by mutableStateOf(AddUiState.Standby)
+class DetailViewModel(private val repository: MyProfileRepository) : ViewModel() {
+    var uiState: DetailUiState by mutableStateOf(DetailUiState.Loading)
         private set
 
-    fun getUiState() {
-        uiState = AddUiState.Standby
-    }
-
-    fun saveProfile(profile: Profile){
+    fun getDetailProfile(id: Int) {
         viewModelScope.launch {
+            uiState = DetailUiState.Loading
             uiState = try {
-                repository.insert(profile)
-                AddUiState.Success("Success")
-            }catch (e: IOException) {
-                AddUiState.Failed(e.message.toString())
+                val result = repository.getProfileById(id)
+                DetailUiState.Success(result)
+            } catch (e: IOException) {
+                DetailUiState.Error(e.toString())
             }
+
         }
     }
 
@@ -42,10 +37,8 @@ class AddViewModel(private val repository: MyProfileRepository) : ViewModel() {
                 val application =
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as MyProfileApplication)
                 val movieRepository = application.container.myProfileRepository
-                AddViewModel(repository = movieRepository)
+                DetailViewModel(repository = movieRepository)
             }
         }
     }
-
-
 }

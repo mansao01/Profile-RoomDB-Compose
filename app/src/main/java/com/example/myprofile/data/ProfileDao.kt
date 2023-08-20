@@ -23,6 +23,7 @@ interface ProfileDao {
 
     @Query("SELECT * FROM profile ORDER BY name ASC")
     fun getAllProfile(): Flow<List<Profile>>
+
     @Query("SELECT * FROM profile WHERE id = :id")
     fun getProfileById(id:Int): Flow<Profile>
 

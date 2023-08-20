@@ -2,6 +2,7 @@
 
 package com.example.myprofile.ui.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,12 +17,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myprofile.data.model.Profile
+import com.example.myprofile.ui.component.ProfileListItem
 import com.example.myprofile.ui.component.SmallFAB
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navigateToAdd: () -> Unit,
+    navigateToDetail: (Int) -> Unit,
     homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val homeUiState by homeViewModel.homeUiState.collectAsState()
@@ -29,6 +32,7 @@ fun HomeScreen(
     HomeContent(
         profileList = homeUiState.profile,
         navigateToAdd = navigateToAdd,
+        navigateToDetail = navigateToDetail,
         modifier = modifier.fillMaxSize()
     )
 
@@ -38,7 +42,9 @@ fun HomeScreen(
 fun HomeContent(
     profileList: List<Profile>,
     modifier: Modifier = Modifier,
-    navigateToAdd: () -> Unit
+    navigateToAdd: () -> Unit,
+    navigateToDetail: (Int) -> Unit
+
 ) {
     Scaffold(
         floatingActionButton = {
@@ -53,7 +59,11 @@ fun HomeContent(
             if (profileList.isEmpty()) {
                 Text(text = "No data", modifier = modifier)
             } else {
-                ProfileList(profileList = profileList, modifier = modifier)
+                ProfileList(
+                    profileList = profileList,
+                    modifier = modifier,
+                    navigateToDetail
+                )
             }
         }
     }
@@ -62,18 +72,18 @@ fun HomeContent(
 @Composable
 fun ProfileList(
     profileList: List<Profile>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToDetail: (Int) -> Unit
+
 ) {
     LazyColumn(modifier = modifier) {
         items(profileList) { data ->
-            ProfileItem(profile = data)
+            ProfileListItem(
+                profile = data,
+                modifier = modifier
+                    .clickable { navigateToDetail(data.id) }
+            )
         }
     }
 }
 
-@Composable
-fun ProfileItem(
-    profile: Profile
-) {
-    Text(text = profile.name)
-}

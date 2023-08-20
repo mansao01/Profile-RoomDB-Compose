@@ -3,6 +3,7 @@
 package com.example.myprofile.ui.screen.add
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -34,19 +35,24 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myprofile.R
 import com.example.myprofile.data.model.Profile
-import com.example.myprofile.data.model.ProfileDetail
 import com.example.myprofile.ui.common.AddUiState
 
 @Composable
 fun AddScreen(
     uiState: AddUiState,
     modifier: Modifier = Modifier,
-    addViewModel: AddViewModel = viewModel(factory = AddViewModel.Factory)
+    addViewModel: AddViewModel = viewModel(factory = AddViewModel.Factory),
+    navigateToHome: () -> Unit
 ) {
     val context = LocalContext.current
     addViewModel.getUiState()
-    when(uiState){
-        is AddUiState.Standby -> AddContent(addViewModel = addViewModel)
+    when (uiState) {
+        is AddUiState.Standby -> AddContent(
+            addViewModel = addViewModel,
+            modifier = modifier,
+            navigateToHome = navigateToHome
+        )
+
         is AddUiState.Success -> Toast.makeText(context, uiState.status, Toast.LENGTH_SHORT).show()
         is AddUiState.Failed -> Toast.makeText(context, uiState.status, Toast.LENGTH_SHORT).show()
     }
@@ -55,9 +61,11 @@ fun AddScreen(
 @Composable
 fun AddContent(
     modifier: Modifier = Modifier,
-    addViewModel: AddViewModel
+    addViewModel: AddViewModel,
+    navigateToHome: () -> Unit
+
 ) {
-    Column(modifier.fillMaxSize()) {
+    Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(
             text = "Add profile",
             color = MaterialTheme.colorScheme.primary,
@@ -110,7 +118,6 @@ fun AddContent(
             isError = isNameNull,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp)
         )
 
         OutlinedTextField(
@@ -136,9 +143,9 @@ fun AddContent(
             },
             isError = isAgeNull,
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            maxLines = 1,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp)
         )
         OutlinedTextField(
             value = address,
@@ -164,7 +171,6 @@ fun AddContent(
             isError = isAddressNull,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp)
         )
 
         Button(
@@ -173,20 +179,22 @@ fun AddContent(
                     name.isEmpty() -> isNameNull = true
                     age.isEmpty() -> isAgeNull = true
                     address.isEmpty() -> isAddressNull = true
-                    else -> addViewModel.saveProfile(
-                        Profile(
-                            name = name,
-                            age = age.toInt(),
-                            address = address
+                    else -> {
+                        addViewModel.saveProfile(
+                            Profile(
+                                name = name,
+                                age = age.toInt(),
+                                address = address
+                            )
                         )
-                    )
+                        navigateToHome()
+                    }
 
                 }
             },
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(horizontal = 52.dp)
-                .padding(top = 18.dp)
         ) {
             Text(text = "Save")
         }

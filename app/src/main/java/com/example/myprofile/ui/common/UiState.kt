@@ -1,7 +1,7 @@
 package com.example.myprofile.ui.common
 
 import com.example.myprofile.data.model.Profile
-import com.example.myprofile.data.model.ProfileDetail
+import kotlinx.coroutines.flow.Flow
 
 sealed interface HomeUiState {
     data class Result(val profile: List<Profile> = listOf())
@@ -11,5 +11,12 @@ sealed interface AddUiState {
     object Standby : AddUiState
     data class Success(val status: String) : AddUiState
     data class Failed(val status: String) : AddUiState
+}
+
+sealed interface DetailUiState{
+    object Loading:DetailUiState
+    data class Success(val profile: Flow<Profile>):DetailUiState
+    data class Error(val status: String) : DetailUiState
+
 }
 
