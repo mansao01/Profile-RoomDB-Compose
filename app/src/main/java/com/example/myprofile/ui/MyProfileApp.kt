@@ -1,15 +1,15 @@
 package com.example.myprofile.ui
 
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myprofile.ui.navigation.Screen
 import com.example.myprofile.ui.screen.add.AddScreen
+import com.example.myprofile.ui.screen.add.AddViewModel
 import com.example.myprofile.ui.screen.home.HomeScreen
 
 @Composable
@@ -27,7 +27,8 @@ fun MyProfileApp(
             })
         }
         composable(Screen.Add.route) {
-            AddScreen()
+            val addViewModel: AddViewModel = viewModel(factory = AddViewModel.Factory)
+            AddScreen(uiState = addViewModel.uiState)
         }
     }
 }

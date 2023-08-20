@@ -15,7 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myprofile.data.Profile
+import com.example.myprofile.data.model.Profile
 import com.example.myprofile.ui.component.SmallFAB
 
 @Composable

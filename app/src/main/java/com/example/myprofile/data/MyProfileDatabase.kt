@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.myprofile.data.model.Profile
 
 @Database(entities = [Profile::class], version = 1, exportSchema = false)
 abstract class MyProfileDatabase : RoomDatabase() {

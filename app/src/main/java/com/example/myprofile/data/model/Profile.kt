@@ -1,4 +1,4 @@
-package com.example.myprofile.data
+package com.example.myprofile.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -6,12 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity("profile")
 data class Profile(
-    @PrimaryKey
-    val id:Int,
+    @PrimaryKey(autoGenerate = true)
+    var id:Int = 0,
     @ColumnInfo(name = "name")
-    val name:String,
+    var name:String ="",
     @ColumnInfo(name= "age")
-    val age:Int,
+    var age:Int = 0,
     @ColumnInfo(name ="address")
-    val address:String
+    var address:String = ""
 )

@@ -1,5 +1,6 @@
 package com.example.myprofile.data
 
+import com.example.myprofile.data.model.Profile
 import kotlinx.coroutines.flow.Flow
 
 
