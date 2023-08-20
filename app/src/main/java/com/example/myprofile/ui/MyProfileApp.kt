@@ -41,7 +41,7 @@ fun MyProfileApp(
         })) { data ->
             val detailViewModel: DetailViewModel = viewModel(factory = DetailViewModel.Factory)
             val profileId = data.arguments?.getInt("profileId") ?: -1
-            DetailScreen(profileId = profileId)
+            DetailScreen(profileId = profileId, uiState = detailViewModel.uiState)
         }
         composable(Screen.Add.route) {
             val addViewModel: AddViewModel = viewModel(factory = AddViewModel.Factory)

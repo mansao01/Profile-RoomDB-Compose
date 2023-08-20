@@ -27,7 +27,6 @@ class DetailViewModel(private val repository: MyProfileRepository) : ViewModel()
             } catch (e: IOException) {
                 DetailUiState.Error(e.toString())
             }
-
         }
     }
 
