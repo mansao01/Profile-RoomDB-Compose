@@ -41,7 +41,13 @@ fun MyProfileApp(
         })) { data ->
             val detailViewModel: DetailViewModel = viewModel(factory = DetailViewModel.Factory)
             val profileId = data.arguments?.getInt("profileId") ?: -1
-            DetailScreen(profileId = profileId, uiState = detailViewModel.uiState)
+            DetailScreen(
+                profileId = profileId,
+                uiState = detailViewModel.uiState,
+                moveToHome = {
+                    navController.navigate(Screen.Home.route)
+                }
+            )
         }
         composable(Screen.Add.route) {
             val addViewModel: AddViewModel = viewModel(factory = AddViewModel.Factory)

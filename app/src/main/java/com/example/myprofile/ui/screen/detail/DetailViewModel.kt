@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myprofile.MyProfileApplication
 import com.example.myprofile.data.MyProfileRepository
+import com.example.myprofile.data.model.Profile
 import com.example.myprofile.ui.common.DetailUiState
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -24,6 +25,18 @@ class DetailViewModel(private val repository: MyProfileRepository) : ViewModel()
             uiState = try {
                 val result = repository.getProfileById(id)
                 DetailUiState.Success(result)
+            } catch (e: IOException) {
+                DetailUiState.Error(e.toString())
+            }
+        }
+    }
+
+    suspend fun deleteProfile(profile: Profile) {
+        viewModelScope.launch {
+            uiState = DetailUiState.Loading
+            uiState = try {
+                repository.delete(profile)
+                DetailUiState.SuccessDelete("Profile Deleted")
             } catch (e: IOException) {
                 DetailUiState.Error(e.toString())
             }
