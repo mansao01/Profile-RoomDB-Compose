@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.example.myprofile.ui.screen.edit
 
@@ -45,7 +45,7 @@ fun EditScreen(
     profileId: Int,
     uiState: EditUiState,
     editViewModel: EditViewModel = viewModel(factory = EditViewModel.Factory),
-    navigateToHome:() ->Unit
+    navigateToHome: () -> Unit
 
 ) {
     LaunchedEffect(Unit) {
@@ -56,7 +56,9 @@ fun EditScreen(
         is EditUiState.Loading -> Text(text = "Please wait...")
         is EditUiState.Success -> EditContent(
             profile = uiState.profile,
-            navigateToHome = navigateToHome
+            navigateToHome = navigateToHome,
+            editViewModel = editViewModel,
+            profileId = profileId
         )
 
         is EditUiState.SuccessUpdate -> Toast.makeText(context, uiState.status, Toast.LENGTH_SHORT)
@@ -70,7 +72,9 @@ fun EditScreen(
 @Composable
 fun EditContent(
     profile: Profile,
-    navigateToHome:() ->Unit
+    profileId: Int,
+    editViewModel: EditViewModel,
+    navigateToHome: () -> Unit
 ) {
     var name by remember {
         mutableStateOf(profile.name)
@@ -179,7 +183,24 @@ fun EditContent(
         )
 
         Button(
-            onClick = { navigateToHome() },
+            onClick = {
+                when {
+                    name.isEmpty() -> isNameNull = true
+                    age.toString().isEmpty() -> isAgeNull = true
+                    address.isEmpty() -> isAddressNull = true
+                    else -> {
+                        navigateToHome()
+                        editViewModel.updateProfile(
+                            Profile(
+                                id= profileId,
+                                name = name,
+                                age = age,
+                                address = address
+                            )
+                        )
+                    }
+                }
+            },
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(end = 16.dp)

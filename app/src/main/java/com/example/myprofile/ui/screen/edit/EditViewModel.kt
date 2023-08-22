@@ -37,7 +37,7 @@ class EditViewModel(private val repository: MyProfileRepository) : ViewModel() {
     fun updateProfile(profile: Profile) {
         viewModelScope.launch {
             uiState = try {
-                repository.insert(profile)
+                repository.update(profile)
                 EditUiState.SuccessUpdate("Success")
             } catch (e: IOException) {
                 EditUiState.Failed(e.message.toString())
