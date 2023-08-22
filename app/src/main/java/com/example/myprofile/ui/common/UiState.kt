@@ -13,11 +13,17 @@ sealed interface AddUiState {
     data class Failed(val status: String) : AddUiState
 }
 
-sealed interface DetailUiState{
-    object Loading:DetailUiState
-    data class Success(val profile: Flow<Profile>):DetailUiState
-    data class SuccessDelete(val message: String):DetailUiState
+sealed interface DetailUiState {
+    object Loading : DetailUiState
+    data class Success(val profile: Flow<Profile>) : DetailUiState
+    data class SuccessDelete(val message: String) : DetailUiState
     data class Error(val status: String) : DetailUiState
 
 }
 
+sealed interface EditUiState {
+    object Loading : EditUiState
+    data class Success(val profile: Flow<Profile>) : EditUiState
+    data class SuccessUpdate(val status: String) : EditUiState
+    data class Failed(val status: String) : EditUiState
+}
