@@ -26,7 +26,7 @@ class EditViewModel(private val repository: MyProfileRepository) : ViewModel() {
         viewModelScope.launch {
             uiState = EditUiState.Loading
             uiState = try {
-                val result = repository.getProfileById(id)
+                val result = repository.getProfileByIdForEdit(id)
                 EditUiState.Success(result)
             } catch (e: IOException) {
                 EditUiState.Failed("Failed to get data")

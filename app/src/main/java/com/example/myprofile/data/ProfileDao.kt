@@ -26,6 +26,8 @@ interface ProfileDao {
 
     @Query("SELECT * FROM profile WHERE id = :id")
     fun getProfileById(id:Int): Flow<Profile>
+    @Query("SELECT * FROM profile WHERE id = :id")
+    suspend fun getProfileByIdForEdit(id:Int): Profile
 
 
 }

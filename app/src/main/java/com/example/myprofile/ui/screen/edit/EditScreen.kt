@@ -7,6 +7,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,11 +26,15 @@ fun EditScreen(
     uiState: EditUiState,
     editViewModel: EditViewModel = viewModel(factory = EditViewModel.Factory)
 ) {
-    editViewModel.getProfileById(profileId)
+    LaunchedEffect(Unit){
+        editViewModel.getProfileById(profileId)
+    }
     val context = LocalContext.current
     when (uiState) {
         is EditUiState.Loading -> Text(text = "Please wait...")
-        is EditUiState.Success -> EditContent(profileFlow = uiState.profile)
+        is EditUiState.Success -> EditContent(
+            nameValue = uiState.profile.name
+        )
         is EditUiState.SuccessUpdate -> Toast.makeText(context, uiState.status, Toast.LENGTH_SHORT)
             .show()
 
@@ -40,11 +45,12 @@ fun EditScreen(
 
 @Composable
 fun EditContent(
-    profileFlow: Flow<Profile>
+    nameValue:String
 ) {
-    val profile by profileFlow.collectAsState(initial = Profile())
-
+    var name by remember{
+        mutableStateOf(nameValue)
+    }
     OutlinedTextField(
-        value = profile.name,
-        onValueChange = { profile.name = it })
+        value = name,
+        onValueChange = { name = it })
 }

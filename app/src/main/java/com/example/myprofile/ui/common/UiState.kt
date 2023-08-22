@@ -23,7 +23,7 @@ sealed interface DetailUiState {
 
 sealed interface EditUiState {
     object Loading : EditUiState
-    data class Success(val profile: Flow<Profile>) : EditUiState
+    data class Success(val profile: Profile) : EditUiState
     data class SuccessUpdate(val status: String) : EditUiState
     data class Failed(val status: String) : EditUiState
 }
