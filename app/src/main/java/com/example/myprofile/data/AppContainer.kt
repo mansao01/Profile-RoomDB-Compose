@@ -8,7 +8,9 @@ interface AppContainer {
 
 class AppDataContainer(private val context: Context) : AppContainer {
     override val myProfileRepository: MyProfileRepository by lazy {
-        OfflineMyProfileRepository(MyProfileDatabase.getDatabase(context).profileDao())
+        OfflineMyProfileRepository(
+            MyProfileDatabase.getDatabase(context).profileDao()
+        )
     }
 
 }

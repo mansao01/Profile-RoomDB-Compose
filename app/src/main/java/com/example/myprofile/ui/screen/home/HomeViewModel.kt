@@ -7,7 +7,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myprofile.MyProfileApplication
 import com.example.myprofile.data.MyProfileRepository
-import com.example.myprofile.data.OfflineMyProfileRepository
 import com.example.myprofile.ui.common.HomeUiState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

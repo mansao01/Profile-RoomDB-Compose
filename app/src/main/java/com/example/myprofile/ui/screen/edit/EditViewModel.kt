@@ -11,9 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myprofile.MyProfileApplication
 import com.example.myprofile.data.MyProfileRepository
 import com.example.myprofile.data.model.Profile
-import com.example.myprofile.ui.common.AddUiState
 import com.example.myprofile.ui.common.EditUiState
-import com.example.myprofile.ui.screen.detail.DetailViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
 
