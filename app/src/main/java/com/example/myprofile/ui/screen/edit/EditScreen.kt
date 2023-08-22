@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package com.example.myprofile.ui.screen.edit
 
@@ -33,7 +33,7 @@ fun EditScreen(
     when (uiState) {
         is EditUiState.Loading -> Text(text = "Please wait...")
         is EditUiState.Success -> EditContent(
-            nameValue = uiState.profile.name
+            profile = uiState.profile
         )
         is EditUiState.SuccessUpdate -> Toast.makeText(context, uiState.status, Toast.LENGTH_SHORT)
             .show()
@@ -45,10 +45,10 @@ fun EditScreen(
 
 @Composable
 fun EditContent(
-    nameValue:String
+    profile:Profile
 ) {
     var name by remember{
-        mutableStateOf(nameValue)
+        mutableStateOf(profile.name)
     }
     OutlinedTextField(
         value = name,
