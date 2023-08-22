@@ -2,7 +2,6 @@
 
 package com.example.myprofile.ui.screen.detail
 
-import android.graphics.drawable.Icon
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +28,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myprofile.data.model.Profile
 import com.example.myprofile.ui.common.DetailUiState
-import com.example.myprofile.ui.component.SmallFAB
+import com.example.myprofile.ui.component.MyFAB
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -78,7 +77,7 @@ fun DetailContent(
 
     Scaffold(
         floatingActionButton = {
-            SmallFAB(navigate = { navigateToEdit(profile.id) }, imageVector = Icons.Default.Create)
+            MyFAB(navigate = { navigateToEdit(profile.id) }, imageVector = Icons.Default.Create)
         }
     ) {
         Surface(

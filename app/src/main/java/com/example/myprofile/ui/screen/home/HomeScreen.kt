@@ -19,8 +19,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myprofile.data.model.Profile
+import com.example.myprofile.ui.component.MyFAB
 import com.example.myprofile.ui.component.ProfileListItem
-import com.example.myprofile.ui.component.SmallFAB
 
 @Composable
 fun HomeScreen(
@@ -50,7 +50,7 @@ fun HomeContent(
 ) {
     Scaffold(
         floatingActionButton = {
-            SmallFAB(navigate = { navigateToAdd() }, imageVector = Icons.Default.Add)
+            MyFAB(navigate = { navigateToAdd() }, imageVector = Icons.Default.Add)
         }
     ) {
         Surface(

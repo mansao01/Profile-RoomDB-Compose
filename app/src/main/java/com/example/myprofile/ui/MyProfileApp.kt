@@ -60,7 +60,12 @@ fun MyProfileApp(
         })) { data ->
             val profileId = data.arguments?.getInt("profileId") ?: -1
             val editViewModel: EditViewModel = viewModel(factory = EditViewModel.Factory)
-            EditScreen(profileId = profileId, uiState = editViewModel.uiState)
+            EditScreen(
+                profileId = profileId,
+                uiState = editViewModel.uiState,
+                navigateToHome = {
+                    navController.navigate(Screen.Home.route)
+                })
         }
         composable(Screen.Add.route) {
             val addViewModel: AddViewModel = viewModel(factory = AddViewModel.Factory)
