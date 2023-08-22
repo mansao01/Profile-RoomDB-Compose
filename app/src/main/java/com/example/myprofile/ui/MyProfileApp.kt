@@ -14,6 +14,7 @@ import com.example.myprofile.ui.screen.add.AddScreen
 import com.example.myprofile.ui.screen.add.AddViewModel
 import com.example.myprofile.ui.screen.detail.DetailScreen
 import com.example.myprofile.ui.screen.detail.DetailViewModel
+import com.example.myprofile.ui.screen.edit.EditScreen
 import com.example.myprofile.ui.screen.home.HomeScreen
 
 @Composable
@@ -44,10 +45,20 @@ fun MyProfileApp(
             DetailScreen(
                 profileId = profileId,
                 uiState = detailViewModel.uiState,
-                moveToHome = {
+                navigateToHome = {
                     navController.navigate(Screen.Home.route)
+                },
+                navigateToEdit = { id ->
+                    navController.navigate(Screen.Edit.createRoute(id))
                 }
             )
+        }
+
+        composable(Screen.Edit.route, arguments = listOf(navArgument("profileId") {
+            type = NavType.IntType
+        })) { data ->
+            val profileId = data.arguments?.getInt("profileId") ?: -1
+            EditScreen(profileId)
         }
         composable(Screen.Add.route) {
             val addViewModel: AddViewModel = viewModel(factory = AddViewModel.Factory)
