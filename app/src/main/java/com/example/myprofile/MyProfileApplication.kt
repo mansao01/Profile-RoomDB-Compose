@@ -25,11 +25,5 @@ class MyProfileApplication : Application() {
         super.onCreate()
         container = AppDataContainer(this)
         profilePreferencesRepository = ProfilePreferencesRepository(dataStore)
-        val themeMode = runBlocking {
-            profilePreferencesRepository.isDarkMode.first()
-        }
-        AppCompatDelegate.setDefaultNightMode(
-            if (themeMode) AppCompatDelegate.MODE_NIGHT_YES
-            else AppCompatDelegate.MODE_NIGHT_NO)
     }
 }

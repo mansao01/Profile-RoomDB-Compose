@@ -28,16 +28,10 @@ import com.example.myprofile.ui.screen.setting.SettingViewModel
 @Composable
 fun MyProfileApp(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    onDarkModeChanged: (Boolean) -> Unit
 ) {
     val appThemeMode = remember{ mutableStateOf(AppCompatDelegate.MODE_NIGHT_NO) }
-    val context = LocalContext.current
-    DisposableEffect(appThemeMode.value ){
-        AppCompatDelegate.setDefaultNightMode(appThemeMode.value)
-        onDispose {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-    }
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
@@ -58,11 +52,13 @@ fun MyProfileApp(
             )
         }
 
-        composable(Screen.Setting.route){
+        composable(Screen.Setting.route) {
             val settingViewModel: SettingViewModel = viewModel(factory = SettingViewModel.Factory)
-            SettingScreen(settingViewModel = settingViewModel, appThemeMode = appThemeMode)
+            SettingScreen(
+                settingViewModel = settingViewModel,
+                onDarkModeChanged = onDarkModeChanged
+            )
         }
-
         composable(Screen.Detail.route, arguments = listOf(navArgument("profileId") {
             type = NavType.IntType
         })) { data ->
