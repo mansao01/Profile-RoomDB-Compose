@@ -1,12 +1,11 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.myprofile.ui
 
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -25,13 +24,14 @@ import com.example.myprofile.ui.screen.home.HomeScreen
 import com.example.myprofile.ui.screen.setting.SettingScreen
 import com.example.myprofile.ui.screen.setting.SettingViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyProfileApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     onDarkModeChanged: (Boolean) -> Unit
 ) {
-    val appThemeMode = remember{ mutableStateOf(AppCompatDelegate.MODE_NIGHT_NO) }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
@@ -49,6 +49,7 @@ fun MyProfileApp(
                 navigateToSetting = {
                     navController.navigate(Screen.Setting.route)
                 },
+                scrollBehavior = scrollBehavior
             )
         }
 

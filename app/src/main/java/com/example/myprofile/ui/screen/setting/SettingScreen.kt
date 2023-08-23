@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
@@ -21,7 +22,7 @@ fun SettingScreen(
     settingViewModel: SettingViewModel = viewModel(factory = SettingViewModel.Factory),
     onDarkModeChanged: (Boolean) -> Unit
 ) {
-    SettingContent(settingViewModel = settingViewModel,  onDarkModeChanged = onDarkModeChanged)
+    SettingContent(settingViewModel = settingViewModel, onDarkModeChanged = onDarkModeChanged)
 
 }
 
@@ -40,19 +41,18 @@ fun SettingContent(
             modifier = Modifier.size(SwitchDefaults.IconSize)
         )
     }
-
     Row(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Text(text = uiState.title)
+        Text(text = uiState.title, modifier = Modifier.padding(top = 4.dp), fontSize = 20.sp)
         Switch(
             checked = uiState.isDarkMode,
             onCheckedChange = { isChecked ->
                 settingViewModel.selectedTheme(isChecked)
-                onDarkModeChanged(isChecked) // Notify MainActivity of the change
+                onDarkModeChanged(isChecked)
             },
             thumbContent = icon,
         )

@@ -7,4 +7,5 @@
     <string name="enter_your_address">Enter your address</string>
     <string name="age">Age\n</string>
     <string name="address">Address\n</string>
+    <string name="profileapp">ProfileApp</string>
 </resources>

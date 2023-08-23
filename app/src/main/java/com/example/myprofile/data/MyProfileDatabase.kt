@@ -31,7 +31,7 @@ abstract class MyProfileDatabase : RoomDatabase() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
                 val initialProfiles = listOf(
-                    Profile(1, "Mansao", 25, "Kudus"),
+                    Profile(1, "Mansao01", 21, "Kudus"),
                     Profile(2, "Hu Tao", 30, "Liuye")
                 )
                 insertInitialData(db, initialProfiles)
