@@ -54,7 +54,7 @@ fun SettingContent(
     Row(
         modifier = modifier
             .fillMaxSize()
-            .padding(  16.dp),
+            .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(text = uiState.title)

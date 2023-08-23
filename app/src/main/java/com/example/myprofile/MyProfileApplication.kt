@@ -2,6 +2,7 @@ package com.example.myprofile
 
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -9,6 +10,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.myprofile.data.AppContainer
 import com.example.myprofile.data.AppDataContainer
 import com.example.myprofile.data.ProfilePreferencesRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 private const val THEME_PREFERENCES_NAME = "theme_preferences_name"
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
@@ -22,5 +25,11 @@ class MyProfileApplication : Application() {
         super.onCreate()
         container = AppDataContainer(this)
         profilePreferencesRepository = ProfilePreferencesRepository(dataStore)
+        val themeMode = runBlocking {
+            profilePreferencesRepository.isDarkMode.first()
+        }
+        AppCompatDelegate.setDefaultNightMode(
+            if (themeMode) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
