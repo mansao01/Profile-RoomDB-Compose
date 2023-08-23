@@ -1,7 +1,12 @@
 package com.example.myprofile.ui
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -17,12 +22,22 @@ import com.example.myprofile.ui.screen.detail.DetailViewModel
 import com.example.myprofile.ui.screen.edit.EditScreen
 import com.example.myprofile.ui.screen.edit.EditViewModel
 import com.example.myprofile.ui.screen.home.HomeScreen
+import com.example.myprofile.ui.screen.setting.SettingScreen
+import com.example.myprofile.ui.screen.setting.SettingViewModel
 
 @Composable
 fun MyProfileApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
+    val appThemeMode = remember{ mutableStateOf(AppCompatDelegate.MODE_NIGHT_NO) }
+    val context = LocalContext.current
+    DisposableEffect(appThemeMode.value ){
+        AppCompatDelegate.setDefaultNightMode(appThemeMode.value)
+        onDispose {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+    }
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
@@ -36,7 +51,16 @@ fun MyProfileApp(
                 navigateToDetail = { profileId ->
                     navController.navigate(Screen.Detail.createRoute(profileId))
 
-                })
+                },
+                navigateToSetting = {
+                    navController.navigate(Screen.Setting.route)
+                },
+            )
+        }
+
+        composable(Screen.Setting.route){
+            val settingViewModel: SettingViewModel = viewModel(factory = SettingViewModel.Factory)
+            SettingScreen(settingViewModel = settingViewModel, appThemeMode = appThemeMode)
         }
 
         composable(Screen.Detail.route, arguments = listOf(navArgument("profileId") {

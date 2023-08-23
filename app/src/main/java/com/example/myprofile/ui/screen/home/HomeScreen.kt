@@ -3,13 +3,17 @@
 package com.example.myprofile.ui.screen.home
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,6 +31,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     navigateToAdd: () -> Unit,
     navigateToDetail: (Int) -> Unit,
+    navigateToSetting: () -> Unit,
     homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val homeUiState by homeViewModel.homeUiState.collectAsState()
@@ -35,6 +40,7 @@ fun HomeScreen(
         profileList = homeUiState.profile,
         navigateToAdd = navigateToAdd,
         navigateToDetail = navigateToDetail,
+        navigateToSetting = navigateToSetting,
         modifier = modifier.fillMaxSize()
     )
 
@@ -45,9 +51,10 @@ fun HomeContent(
     profileList: List<Profile>,
     modifier: Modifier = Modifier,
     navigateToAdd: () -> Unit,
-    navigateToDetail: (Int) -> Unit
+    navigateToDetail: (Int) -> Unit,
+    navigateToSetting: () -> Unit,
 
-) {
+    ) {
     Scaffold(
         floatingActionButton = {
             MyFAB(navigate = { navigateToAdd() }, imageVector = Icons.Default.Add)
@@ -58,14 +65,19 @@ fun HomeContent(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            if (profileList.isEmpty()) {
-                Text(text = "No data", modifier = modifier)
-            } else {
-                ProfileList(
-                    profileList = profileList,
-                    modifier = modifier,
-                    navigateToDetail
-                )
+            Column {
+                IconButton(onClick = { navigateToSetting() }) {
+                    Icon(imageVector = Icons.Default.Settings, contentDescription = "Setting")
+                }
+                if (profileList.isEmpty()) {
+                    Text(text = "No data", modifier = modifier)
+                } else {
+                    ProfileList(
+                        profileList = profileList,
+                        modifier = modifier,
+                        navigateToDetail
+                    )
+                }
             }
         }
     }
